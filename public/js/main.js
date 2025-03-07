@@ -17,12 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
+            // Add loading state
+            checkImeiBtn.classList.add('loading');
+            checkImeiBtn.style.width = checkImeiBtn.offsetWidth + 'px'; // Preserve width
+            checkImeiBtn.innerHTML = '&nbsp;'; // Clear text but maintain height
+
             const response = await fetch(`https://mis.carlcare.com/CarlcareClient/electronic-card/get-active-detail?imei=${imei}`);
             deviceData = await response.json();
             displayDeviceInfo(deviceData);
         } catch (error) {
             alert('Failed to fetch IMEI data');
             console.error('Error:', error);
+        } finally {
+            // Remove loading state
+            checkImeiBtn.classList.remove('loading');
+            checkImeiBtn.style.width = ''; // Reset width
+            checkImeiBtn.textContent = 'Check IMEI';
         }
     });
 
@@ -51,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Store invoice number globally
-        currentInvoiceNo = '0' + Math.floor(Math.random() * 9000000000 + 1000000000).toString();
+        currentInvoiceNo = '0' + Math.floor(Math.random() * 900000000 + 100000000).toString();
         const deviceInfo = data.data || {};
         
         // Get the submitted IMEI from input
@@ -120,7 +130,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Get the generate button
+        const generateBtn = document.getElementById('generateImage');
+
         try {
+            // Add loading state
+            generateBtn.classList.add('loading-generate');
+            generateBtn.style.width = generateBtn.offsetWidth + 'px'; // Preserve width
+            generateBtn.innerHTML = '&nbsp;'; // Clear text but maintain height
+
             // Create canvas
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -141,14 +159,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Get text to overlay
                     const submittedImei = document.getElementById('imeiInput').value.trim();
-                    const marketModel = deviceData.data.marketName || 'N/A';
+                    // Combine brand and market model
+                    const brandModel = `${deviceData.data.brand || ''} ${deviceData.data.marketName || 'N/A'}`.trim();
 
-                    // Configure text style with larger font size
-                    ctx.font = ' 26px Arial';  // Changed to 12px and added bold
+                    // Configure text style
+                    ctx.font = '26px Arial';
                     ctx.fillStyle = '#000000';
 
                     // Draw text at specified positions
-                    ctx.fillText(marketModel, 470, 894);  // Market Model position
+                    ctx.fillText(brandModel, 470, 894);  // Brand + Model position
                     ctx.fillText(submittedImei, 390, 997); // IMEI position
                     ctx.fillText(currentInvoiceNo, 1160, 560); // Invoice position
 
@@ -166,6 +185,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error generating image:', error);
             alert('Failed to generate image: ' + error.message);
+        } finally {
+            // Remove loading state
+            generateBtn.classList.remove('loading-generate');
+            generateBtn.style.width = ''; // Reset width
+            generateBtn.textContent = 'Generate Image';
         }
     }
 
@@ -175,13 +199,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const previewContainer = document.createElement('div');
         previewContainer.className = 'preview-container';
         previewContainer.innerHTML = `
-            <div class="preview-image">
-                <img src="${dataUrl}" alt="Generated Invoice" />
-            </div>
             <div class="download-button">
                 <button onclick="downloadImage('${dataUrl}')" class="download-btn">
                     Download Invoice
                 </button>
+            </div>
+            <div class="preview-image">
+                <img src="${dataUrl}" alt="Generated Invoice" />
             </div>
         `;
 

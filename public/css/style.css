@@ -66,8 +66,9 @@ button {
 }
 
 button:hover {
-    background-color: #1d4ed8;
-    transform: translateY(-1px);
+    background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
 .result, .invoice {
@@ -451,6 +452,10 @@ pre {
     gap: 1rem;
 }
 
+.download-button {
+    margin-bottom: 1rem;
+}
+
 .preview-image {
     max-width: 100%;
     border: 1px solid var(--border-color);
@@ -462,10 +467,6 @@ pre {
     width: 100%;
     height: auto;
     display: block;
-}
-
-.download-button {
-    margin-top: 1rem;
 }
 
 .download-btn {
@@ -482,4 +483,95 @@ pre {
 .download-btn:hover {
     background-color: #059669;
     transform: translateY(-1px);
+}
+
+/* Modern loading animation */
+.loading {
+    position: relative;
+    pointer-events: none;
+    background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.loading::after {
+    content: "Checking...";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    animation: loadingDots 1.5s infinite;
+}
+
+@keyframes loadingDots {
+    0% { content: "Checking."; }
+    33% { content: "Checking.."; }
+    66% { content: "Checking..."; }
+    100% { content: "Checking."; }
+}
+
+.loading::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shine 1.5s ease infinite;
+}
+
+@keyframes shine {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* Add loading animation for generate button */
+.loading-generate {
+    position: relative;
+    pointer-events: none;
+    background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.loading-generate::after {
+    content: "Generating.";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    animation: generatingDots 1.5s infinite;
+}
+
+@keyframes generatingDots {
+    0% { content: "Generating."; }
+    33% { content: "Generating.."; }
+    66% { content: "Generating..."; }
+    100% { content: "Generating."; }
+}
+
+.loading-generate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shine 1.5s ease infinite;
 } 
