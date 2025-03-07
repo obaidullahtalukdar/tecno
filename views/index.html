@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMEI Checker</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>IMEI Checker</h1>
+        
+        <div class="imei-checker">
+            <input type="text" id="imeiInput" placeholder="Enter IMEI number" maxlength="15">
+            <button id="checkImei">Check IMEI</button>
+        </div>
+
+        <div id="result" class="result hidden">
+            <div class="split-layout">
+                <div class="left-panel">
+                    <div id="deviceInfo"></div>
+                </div>
+                <div class="right-panel">
+                    <div class="template-preview">
+                        <h3>Template Preview</h3>
+                        <img src="/template.png" alt="Template Preview" id="templatePreview">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html> 
